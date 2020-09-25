@@ -1,0 +1,15 @@
+beautifulsoup4==4.8.2
+bs4==0.0.1
+fake-useragent==0.1.11
+Flask==1.1.2
+Flask-REST-JSONAPI @ git+https://github.com/fossasia/flask-rest-jsonapi@3c8991cda6ab39d27e1c1a3e7501a8fb06f144e9
+Flask-RESTful==0.3.7
+gcloud==0.17.0
+
+google-compute-engine==2.8.13
+
+gunicorn==20.0.4
+jsonify==0.5
+
+requests==2.24.0
+zipp==3.1.0
