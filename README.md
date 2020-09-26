@@ -5,5 +5,5 @@
   3. pointtable
   4. nextmatch
 
-# https://iplt20api.herokuapp.com/(livescore|shedule|pointtable|nextmatch)
+# https://iplt20api.herokuapp.com/(livescore|schedule|pointtable|nextmatch)
   
