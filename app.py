@@ -58,9 +58,6 @@ def point_table():
     won=[]
     loss=[]
     tied=[]
-    nr=[]
-    fr=[]
-    against=[]
     for i in range(6 ,len(data)):
         if i%6==0:
             y=0
@@ -82,15 +79,11 @@ def point_table():
             y+=1
             continue
         if y ==3:    
-            nr.append(data[i].get_text())
             y+=1
             continue
         if y ==4:    
-            fr.append(data[i].get_text())
             y+=1
             continue
-        if y ==5:    
-            against.append(data[i].get_text())
     all_items={
         "Team":teams , "Point":point,"Won":won,"Loss":loss,"Tied":tied
     }
@@ -99,23 +92,12 @@ def point_table():
 @app.route('/livescore',methods=['GET'])
 
 def score():
-    # url ="https://www.cricbuzz.com/cricket-match/live-scores"
-    # res = requests.get(url , headers = ua)
-    # soup = BeautifulSoup(res.content , features='lxml')
-    # data = soup.findAll('a')
-    # match = data[98].get_text()
-    # team = data[99].get_text()
-    # score = data[100].get_text()
     url="https://www.espncricinfo.com/"
     res = requests.get(url , headers = ua)
     soup = BeautifulSoup(res.content , features='lxml')
     head = soup.findAll(class_='text-truncate')
     comp = soup.findAll(class_='competitor')
-    win = soup.findAll(class_='text-dark')
-
-
-
-    
+    win = soup.findAll(class_='text-dark') 
     all_items={
         "Headline":head[0].get_text() , "Team1":comp[0].get_text(),"Temam2":comp[1].get_text(),"Status":win[0].get_text()
     }
@@ -124,17 +106,6 @@ def score():
 @app.route('/nextmatch',methods=['GET'])
 
 def next():
-    
-    # url ="https://www.cricbuzz.com/cricket-schedule/upcoming-series/league"
-    # res = requests.get(url , headers = ua)
-    # soup = BeautifulSoup(res.content , features='lxml')
-    # data = soup.findAll(class_='cb-lv-grn-strip')
-    # match = soup.findAll(class_='cb-mtchs-dy')
-    # team = soup.findAll(class_='cb-adjst-lst')
-    # all_items={
-    #     "Date":data[0].get_text() ,"League": match[0].get_text() , "Team":team[0].get_text()
-    # }
-    # return jsonify(all_items)
     url = "https://www.iplt20.com/matches/schedule/men"
     res = requests.get(url , headers = ua)
     soup = BeautifulSoup(res.content , features='lxml')
