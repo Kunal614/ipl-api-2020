@@ -99,16 +99,25 @@ def point_table():
 @app.route('/livescore',methods=['GET'])
 
 def score():
-    url ="https://www.cricbuzz.com/cricket-match/live-scores"
+    # url ="https://www.cricbuzz.com/cricket-match/live-scores"
+    # res = requests.get(url , headers = ua)
+    # soup = BeautifulSoup(res.content , features='lxml')
+    # data = soup.findAll('a')
+    # match = data[98].get_text()
+    # team = data[99].get_text()
+    # score = data[100].get_text()
+    url="https://www.espncricinfo.com/"
     res = requests.get(url , headers = ua)
     soup = BeautifulSoup(res.content , features='lxml')
-    data = soup.findAll('a')
-    match = data[98].get_text()
-    team = data[99].get_text()
-    score = data[100].get_text()
+    head = soup.findAll(class_='text-truncate')
+    comp = soup.findAll(class_='competitor')
+    win = soup.findAll(class_='text-dark')
+
+
+
     
     all_items={
-        "Match":match , "Teams":team,"Score":score
+        "Headline":head[0].get_text() , "Team1":comp[0].get_text(),"Temam2":comp[1].get_text(),"Status":win[0].get_text()
     }
     return jsonify(all_items)
 
