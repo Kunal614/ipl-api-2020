@@ -116,14 +116,29 @@ def score():
 
 def next():
     
-    url ="https://www.cricbuzz.com/cricket-schedule/upcoming-series/league"
+    # url ="https://www.cricbuzz.com/cricket-schedule/upcoming-series/league"
+    # res = requests.get(url , headers = ua)
+    # soup = BeautifulSoup(res.content , features='lxml')
+    # data = soup.findAll(class_='cb-lv-grn-strip')
+    # match = soup.findAll(class_='cb-mtchs-dy')
+    # team = soup.findAll(class_='cb-adjst-lst')
+    # all_items={
+    #     "Date":data[0].get_text() ,"League": match[0].get_text() , "Team":team[0].get_text()
+    # }
+    # return jsonify(all_items)
+    url = "https://www.iplt20.com/matches/schedule/men"
     res = requests.get(url , headers = ua)
     soup = BeautifulSoup(res.content , features='lxml')
-    data = soup.findAll(class_='cb-lv-grn-strip')
-    match = soup.findAll(class_='cb-mtchs-dy')
-    team = soup.findAll(class_='cb-adjst-lst')
+    date = soup.find(class_='js-date')   
+    team = soup.find(class_='fixture__teams')  
+    time = soup.find(class_='fixture__time')
+    y = team.get_text()
+    y= y.strip()
+    y = y.replace('\n',' ')
+    date = date.get_text()
+    time = time.get_text()
     all_items={
-        "Date":data[0].get_text() ,"League": match[0].get_text() , "Team":team[0].get_text()
+        "Date":date , "Team":y , "Time":time
     }
     return jsonify(all_items)
 
