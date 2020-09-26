@@ -15,7 +15,7 @@ ua={"UserAgent":'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101
 
 app =Flask(__name__)
 
-@app.route('/shedule' , methods=['GET'])
+@app.route('/schedule' , methods=['GET'])
 
 def shedule():
     url = "https://www.iplt20.com/matches/schedule/men"
@@ -113,9 +113,6 @@ def score():
     comp = soup.findAll(class_='competitor')
     win = soup.findAll(class_='text-dark')
 
-
-
-    
     all_items={
         "Headline":head[0].get_text() , "Team1":comp[0].get_text(),"Temam2":comp[1].get_text(),"Status":win[0].get_text()
     }
