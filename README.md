@@ -1,7 +1,7 @@
 # ipl-api-2020
   * From this API you can perform 4 get request
   1. livescore
-  2. shedule
+  2. schedule
   3. pointtable
   4. nextmatch
 
