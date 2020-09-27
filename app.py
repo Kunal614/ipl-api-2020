@@ -15,8 +15,13 @@ ua={"UserAgent":'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:69.0) Gecko/20100101
 
 app =Flask(__name__)
 
-@app.route('/schedule' , methods=['GET'])
+@app.route('/' , methods=['GET'])
+def index():
+    return jsonify({"Here_You Can Perform 4 Get Request":['livescore','nextmatch','pointtable','schedule']})  
 
+  
+
+@app.route('/schedule' , methods=['GET'])
 def shedule():
     url = "https://www.iplt20.com/matches/schedule/men"
     res = requests.get(url , headers=ua)
@@ -148,7 +153,14 @@ def next():
     }
     return jsonify(all_items)
 
-     
+
+
+@app.errorhandler(404) 
+
+def not_found(e): 
+    return "<h1>Invalid Request</h1>"  
+
+          
 
 if __name__ == "__main__":
     app.run(debug=True)    
