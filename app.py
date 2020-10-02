@@ -48,49 +48,46 @@ def shedule():
 @app.route('/pointtable' , methods=['GET'])
 
 def point_table():
-    url = "https://www.iplt20.com/points-table/2020"
+    url = "https://www.espncricinfo.com/series/_/id/8048/season/2020/indian-premier-league"
 
     res = requests.get(url , headers = ua)
     soup = BeautifulSoup(res.content , features='lxml')
-    points = soup.findAll(class_='js-points')
-    tab = soup.findAll(class_='js-team')
-    data = soup.findAll(class_='standings-table__optional')
-    k = 0
-    j = 1
-    y=0
-    teams = []
-    point = []
-    won=[]
+    points = soup.findAll(class_='pr-3')
+    team = soup.findAll(class_='text-left')
+    teams=[]
+    for i in range(1 , 9):
+        teams.append(team[i].get_text())
+    match =[]
+    win=[]
     loss=[]
-    tied=[]
-    for i in range(6 ,len(data)):
-        if i%6==0:
-            y=0
-            teams.append(tab[j].get_text())
-           
-            point.append(points[k].get_text())
-            k=k+1
-            j=j+2
-        if y == 0:
-            won.append(data[i].get_text())
-            y+=1
+    point=[]
+    nr=[]
+    flag = 0
+    for i in range(5 , 45):
+        y = points[i].get_text()
+        # print(y , end=" ")
+        if flag == 0:
+            match.append(y)
+            flag=1
             continue
-        if y ==1:    
-            loss.append(data[i].get_text())
-            y+=1
+        if flag ==1:
+            win.append(y)
+            flag=2
             continue
-        if y == 2:    
-            tied.append(data[i].get_text())
-            y+=1
+        if flag == 2:
+            loss.append(y)
+            flag=3
             continue
-        if y ==3:    
-            y+=1
+        if flag ==3:
+            point.append(y)
+            flag=4
             continue
-        if y ==4:    
-            y+=1
-            continue
+        if flag == 4 :
+            nr.append(y)
+            flag=0
+
     all_items={
-        "Team":teams , "Point":point,"Won":won,"Loss":loss,"Tied":tied
+        "Team":teams , "match":match , "Point":point,"Won":win,"Loss":loss,"N/R":nr
     }
     return jsonify(all_items)
 
