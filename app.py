@@ -23,25 +23,41 @@ def index():
 
 @app.route('/schedule' , methods=['GET'])
 def shedule():
-    url = "https://www.iplt20.com/matches/schedule/men"
+    url = "https://www.firstpost.com/firstcricket/cricket-schedule/series/ipl-2020.html"
     res = requests.get(url , headers=ua)
     soup = BeautifulSoup(res.content , features='lxml')
-    date  = soup.findAll(class_='js-date')
-    teams = soup.findAll(class_='fixture__teams')
-    time = soup.findAll(class_='fixture__time')
+    data  =soup.findAll(class_='schedule-head')
+    team_name = soup.findAll(class_='sc-match-name')
+    time = soup.findAll(class_='sc-label-val')
     date_st=[]
-    team_name=[]
+    Team_name=[]
     time_mat=[]
-    for i in range(len(date)):
-        date_st.append(date[i].get_text())
-        y = teams[i].get_text() #printing date
-        y = y.strip()
-        y = y.replace('\n',' ')
-        team_name.append(y)
-        time_mat.append(time[i].get_text())
+    tm = 0
+    for i in team_name:
+        Team_name.append(i.get_text().strip())
+
+    for i in  data:
+        y = i.get_text().strip()
+        y = y.replace('\n' , ' ')
+        y = y.replace('\t' , '')
+        y = y[:6]  
+        date_st.append(y)
+
+    for i in time:
+        if tm < len(time):
+            p = time[tm].get_text().strip()
+            p = p.replace('\n' , ' ')
+            p = p.replace('\t' , '')
+            r = time[tm+1].get_text().strip()
+            r = r.replace('\n' , ' ')
+            r = r.replace('\t' , '')
+            tm=tm+2   
+            time_mat.append(p+"  "+r)
+
+      
 
     all_items = {
-        "Date":date_st,"Teams":team_name,"Time":time_mat    
+        "Teams":Team_name,"Date":date_st,"Time":time_mat    
     }    
     return jsonify(all_items)
 
@@ -101,26 +117,34 @@ def score():
     comp = soup.findAll(class_='competitor')
     win = soup.findAll(class_='text-dark')
     all_items={
-        "Headline":head[0].get_text() , "Team1":comp[0].get_text(),"Temam2":comp[1].get_text(),"Status":win[0].get_text()
+        "Headline":head[0].get_text() , "Team1":comp[0].get_text(),"Team2":comp[1].get_text(),"Status":win[0].get_text()
     }
     return jsonify(all_items)
 
 @app.route('/nextmatch',methods=['GET'])
 
 def next():
-    url = "https://www.iplt20.com/matches/schedule/men"
-    res = requests.get(url , headers = ua)
+    url = "https://www.firstpost.com/firstcricket/cricket-schedule/series/ipl-2020.html"
+    res = requests.get(url , headers=ua)
     soup = BeautifulSoup(res.content , features='lxml')
-    date = soup.find(class_='js-date')   
-    team = soup.find(class_='fixture__teams')  
-    time = soup.find(class_='fixture__time')
-    y = team.get_text()
-    y= y.strip()
-    y = y.replace('\n',' ')
-    date = date.get_text()
-    time = time.get_text()
+    data  =soup.findAll(class_='schedule-head')
+    team_name = soup.findAll(class_='sc-match-name')
+    time = soup.findAll(class_='sc-label-val')
+    
+    y = data[0].get_text().strip()
+    y = y.replace('\n' , ' ')
+    y = y.replace('\t' , '')
+    Date = y[:6]  
+    Team = team_name[0].get_text().strip()
+    p= time[0].get_text().strip()
+    p = p.replace('\n' , ' ')
+    p = p.replace('\t' , '')
+    r = time[1].get_text().strip()
+    r = r.replace('\n' , ' ')
+    r = r.replace('\t' , '')
+    Time = p+"  "+r
     all_items={
-        "Date":date , "Team":y , "Time":time
+        "Date":Date , "Team":Team , "Time":Time
     }
     return jsonify(all_items)
 
