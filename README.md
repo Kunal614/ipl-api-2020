@@ -7,3 +7,9 @@
 
 # https://iplt20api.herokuapp.com/(livescore|schedule|pointtable|nextmatch)
   
+# Technology Used
+ * Flask
+ * BeautifulSoup
+ * Request
+ * Fake User Agent
+ 
